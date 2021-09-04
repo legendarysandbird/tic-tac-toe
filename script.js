@@ -69,6 +69,8 @@ const gameBoard = (() => {
     }
     
     const display = () => {
+        _tiles = [["", "", ""], ["", "", ""], ["", "", ""]];
+
         let board = document.getElementById("board");
         board.innerHTML = "";
 
@@ -134,7 +136,7 @@ const player = (sym) => {
 }
 
 let p1 = player("X");
-let p2 = player("O")
+let p2 = player("O");
 
 const game = ((p1, p2) => {
     let turn = true;
@@ -174,4 +176,8 @@ const game = ((p1, p2) => {
     }
 })(p1, p2);
 
-gameBoard.display();
+let reset = document.getElementById("reset");
+reset.onclick = () => {
+    gameBoard.display();
+    reset.textContent = "Reset Game";
+}
