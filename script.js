@@ -130,7 +130,7 @@ let p1 = player("X");
 let p2 = player("O")
 
 const game = ((p1, p2) => {
-    let turn = false;
+    let turn = true;
     const turnSign = document.getElementById("turn");
 
     const _gameStatus = () => {
@@ -146,11 +146,11 @@ const game = ((p1, p2) => {
     const play = (obj, row, col) => {
         if (turn) {
             p1.play(obj, row, col)
-            turnSign.textContent = "Player 1's Turn:"
+            turnSign.textContent = "Player 2's Turn:"
         }
         else {
             p2.play(obj, row, col);
-            turnSign.textContent = "Player 2's Turn:"
+            turnSign.textContent = "Player 1's Turn:"
         }
         _gameStatus();
         turn = !turn;
