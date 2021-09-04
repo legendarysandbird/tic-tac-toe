@@ -32,7 +32,7 @@ const gameBoard = (() => {
             let tmp = _tiles[0][col];
 
             if (tmp == '') {
-                return false;
+                continue;
             }
 
             for (let row = 0; row < 3; row++) {
@@ -92,6 +92,10 @@ const gameBoard = (() => {
         _tiles[row][col] = sym;
     }
 
+    const checkTile = (row, col) => {
+        return _tiles[row][col] == '';
+    }
+
     const isFull = () => {
         for (const row of _tiles) {
             for (const col of row) {
@@ -105,6 +109,8 @@ const gameBoard = (() => {
     }
 
     const gameOver = () => {
+        console.log(_tiles);
+        console.log(_checkVertical());
         return _checkDiagonal() || _checkHorizontal() || _checkVertical();
     }
 
@@ -112,6 +118,7 @@ const gameBoard = (() => {
         display,
         isFull,
         placeTile,
+        checkTile,
         gameOver
     };
 })();
@@ -131,29 +138,34 @@ let p2 = player("O")
 
 const game = ((p1, p2) => {
     let turn = true;
+    let done = false;
     const turnSign = document.getElementById("turn");
 
     const _gameStatus = () => {
         let status = gameBoard.gameOver();
         if (status) {
             alert(`${status} wins!`);
+            done = true;
         }
         else if (gameBoard.isFull()) {
             alert("Tie Game!")
+            done = true;
         }
     }
 
     const play = (obj, row, col) => {
-        if (turn) {
-            p1.play(obj, row, col)
-            turnSign.textContent = "Player 2's Turn:"
+        if (!done && gameBoard.checkTile(row, col)) {
+            if (turn) {
+                p1.play(obj, row, col)
+                turnSign.textContent = "Player 2's Turn:"
+            }
+            else {
+                p2.play(obj, row, col);
+                turnSign.textContent = "Player 1's Turn:"
+            }
+            _gameStatus();
+            turn = !turn;
         }
-        else {
-            p2.play(obj, row, col);
-            turnSign.textContent = "Player 1's Turn:"
-        }
-        _gameStatus();
-        turn = !turn;
     } 
 
 
